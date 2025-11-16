@@ -1,0 +1,27 @@
+body {
+  font: 100%/1.5 system-ui, sans-serif;
+  display: flex;
+  flex-flow: column;
+  max-width: 80em;
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin: auto;
+  padding: 1em;
+}
+
+/* Step 6.2: Layout and styling for the legend */
+.legend {
+  display: flex;
+  gap: 1px;
+  margin-block: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Each legend block uses the same color logic as the circles */
+.legend > div {
+  flex: 1;
+  padding: 0.25rem 0.75rem;
+  text-align: center;
+  background-color: var(--color);
+  color: white;
+}

@@ -1,0 +1,108 @@
+html,
+body {
+  margin: 0;
+  padding: 5;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+#map {
+  position: relative; /* Needed so the SVG can be positioned inside this box */
+  width: 100%; /* Adjust width to your desired size */
+  height: 100%; /* Adjust height to your desired size */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for effect */
+  border-radius: 8px; /* Optional: rounded corners */
+}
+
+/* Step 3.2: SVG overlay on top of the map */
+#map svg {
+  position: absolute; /* Sit on top of the map container */
+  z-index: 1;         /* Higher than the map canvas */
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let mouse interactions go through to the map */
+}
+
+/* Step 6.1: Shared color variables for circles and legend swatches */
+#map svg circle,
+.legend > div {
+  --color-departures: steelblue;
+  --color-arrivals: darkorange;
+  --color: color-mix(
+    in oklch,
+    var(--color-departures) calc(100% * var(--departure-ratio)),
+    var(--color-arrivals)
+  );
+}
+
+/* Step 4.3, 4.4 & 6.1: Style circles and allow hovering for tooltips */
+#map svg circle {
+  fill: var(--color);
+  fill-opacity: 0.6; /* 60% opaque so overlaps are easier to see */
+  stroke: white;
+  stroke-width: 1;
+  pointer-events: auto; /* Re-enable events on circles so tooltips work */
+}
+
+
+/* Step 5.1: Layout for title + time filter */
+.page-header {
+  display: flex;
+  gap: 1em;
+  align-items: baseline;
+  width: 100%;
+}
+
+/* Put the time filter on the right side */
+.page-header .time-filter {
+  margin-left: auto;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Make the slider a reasonable width */
+.page-header .time-filter input[type='range'] {
+  width: 200px;
+}
+
+/* Make the time + (any time) stack vertically */
+.time-display {
+  display: block;
+}
+
+.time-display time,
+.time-display em {
+  display: block;
+}
+
+/* Style the "(any time)" label differently */
+.time-display em {
+  font-style: italic;
+  color: #666;
+}
+
+
+/* Make it obvious that circles are hoverable */
+#map svg circle {
+  cursor: pointer;
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: fixed;              /* Stick to mouse position on the screen */
+  pointer-events: none;         /* Tooltip itself doesn't block mouse events */
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transform: translate(8px, -8px); /* Offset slightly from cursor */
+  opacity: 0;                   /* Start hidden */
+  z-index: 10;                  /* Above map + SVG */
+}
